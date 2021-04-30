@@ -1,0 +1,4 @@
+
+[submodule "socialsent"]
+	path = socialsent
+	url = https://github.com/DavidMaister/socialsent

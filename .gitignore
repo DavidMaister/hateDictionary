@@ -1,3 +1,13 @@
+# ignore private files
+get_hatebase_vocab.py
+hatebase_vocab.csv
+hatebase_vocab_esp.csv
+dictionaries/
+# no upload the databases neither the preprocess files
+*.csv
+*.txt
+
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
