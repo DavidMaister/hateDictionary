@@ -27,7 +27,7 @@ args = parser.parse_args()
 
 with io.open(args.corpus, 'r', encoding='utf8') as corpus:
     lines = corpus.readlines()
-    #random.shuffle(lines)   # shuffle so there is no order
+    random.shuffle(lines)   # shuffle so there is no order
 word_set = set()  # using a set so there are no repeated words
 for line in tqdm(lines):
     line_tokens = word_tokenize(line)
@@ -56,10 +56,10 @@ embeddings = create_representation("GIGA_fast", model, word_list + pos_seeds + n
 print('Generating socialsent and densify dictionary')
 polarities_socialsent = random_walk(embeddings, pos_seeds, neg_seeds, beta=0.99, nn=10, sym=True, arccos=True)
 polarities_densify = densify(embeddings, pos_seeds, neg_seeds, beta=0.99, nn=10, sym=True, arccos=True)
-print('Generating pmi')
+# print('Generating pmi')
 #polarities_pmi = pmi(embedding_explicit, pos_seeds, neg_seeds)
-polarities_socialsent =  dict(polarities_socialsent)
-polarities_densify =  dict(polarities_densify)
+# polarities_socialsent =  dict(polarities_socialsent)
+# polarities_densify =  dict(polarities_densify)
 # values of polarities are float32 and they are needed to be float64 to be serializable by json
 polarities_socialsent = dict([key, np.float64(value)] for key, value in polarities_socialsent.items())
 polarities_densify = dict([key, np.float64(value)] for key, value in polarities_densify.items())
