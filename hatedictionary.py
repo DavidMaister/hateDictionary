@@ -13,6 +13,7 @@ import pandas as pd
 from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
 import string
+import time
 
 parser = argparse.ArgumentParser()
 parser.add_argument("corpus", help="set of words to analyse")
@@ -39,8 +40,8 @@ for line in tqdm(lines):
     # if aux == 20:
     #     break
     # aux += 1
-    if word_set.__len__() > 20000:   # 5000 ~ 5 minutos. 20000 is quite heavy
-        break     # 8000 reviews break my memory
+    #if word_set.__len__() > 20000:   # 5000 ~ 5 minutos. 20000 is quite heavy
+    #    break     # 8000 reviews break my memory
 word_list = list(word_set)
 
 model = api.load('glove-wiki-gigaword-50')
@@ -54,13 +55,19 @@ embeddings = create_representation("GIGA_fast", model, word_list + pos_seeds + n
 #embedding_explicit = create_representation("Explicit", args.corpus)
 
 print('Generating socialsent and densify dictionary')
+tic = time.time()
 polarities_socialsent = random_walk(embeddings, pos_seeds, neg_seeds, beta=0.99, nn=10, sym=True, arccos=True)
+toc = time.time()
+print('Time socialsent algorithm: ', toc-tic)
 polarities_densify = densify(embeddings, pos_seeds, neg_seeds, beta=0.99, nn=10, sym=True, arccos=True)
+tac = time.time()
+print('Time densify algorithm: ', tac-toc)
 # print('Generating pmi')
 #polarities_pmi = pmi(embedding_explicit, pos_seeds, neg_seeds)
 # polarities_socialsent =  dict(polarities_socialsent)
 # polarities_densify =  dict(polarities_densify)
 # values of polarities are float32 and they are needed to be float64 to be serializable by json
+
 polarities_socialsent = dict([key, np.float64(value)] for key, value in polarities_socialsent.items())
 polarities_densify = dict([key, np.float64(value)] for key, value in polarities_densify.items())
 

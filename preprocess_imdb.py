@@ -11,9 +11,9 @@ with io.open('imdb_reviews.txt', 'w', encoding='utf8') as f:
             text = f_review.read()  # file only contain a single line with the review
             f.write(text + '\n')    # write a line in the final file with the review
         #f_review.close()
-        if counter > 4000:
-            break
-        counter += 1
+#         if counter > 4000:
+#             break
+#         counter += 1
 
     counter = 0
     for review in os.listdir('aclImdb/train/neg'):  # same for for positive than wth negative
@@ -22,9 +22,9 @@ with io.open('imdb_reviews.txt', 'w', encoding='utf8') as f:
             text = f_review.read()  # file only contain a single line with the review
             f.write(text + '\n')  # write a line in the final file with the review
         #f_review.close()
-        if counter > 4000:
-            break
-        counter += 1
+#         if counter > 4000:
+#             break
+#         counter += 1
 
 
 
